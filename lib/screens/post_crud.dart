@@ -106,6 +106,9 @@ class _PostEditState extends State<PostCrud> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                ),
                 onPressed: widget.mode == RequestMode.PUT ? _editPost : _createPost,
                 child: const Text('Save'),
               ),

@@ -103,6 +103,7 @@ class _PostsState extends State<Posts> {
               itemCount: _posts.length,
               itemBuilder: (context, index) {
                 return Card(
+                  elevation: 5,
                   child: ListTile(
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
@@ -111,17 +112,20 @@ class _PostsState extends State<Posts> {
                           post: _posts[index],
                         ),
                       ),),
-                    title: Text(
-                      _posts[index].title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                    title: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        _posts[index].title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.start,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    subtitle: Text(_posts[index].body),
-
+                    subtitle: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(_posts[index].body)),
                   ),
-                  
                 );
               },
             ),

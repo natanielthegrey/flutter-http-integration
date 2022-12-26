@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: const Posts()),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepPurple,
         onPressed: () => {
           Navigator.push(
             context,
