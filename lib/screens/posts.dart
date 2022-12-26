@@ -11,6 +11,8 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  final postIdController = TextEditingController();
+
   List<Post> _posts = [];
 
   void _fetchPosts() {
@@ -21,44 +23,97 @@ class _PostsState extends State<Posts> {
     });
   }
 
+  void _fetchPost() {
+    Requests.getPost(int.parse(postIdController.text)).then((post) {
+      setState(() {
+        _posts = [post];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(20),
+      alignment: Alignment.topCenter,
       child: Column(
         children: [
-          Text('Posts', style: Theme.of(context).textTheme.headline6),
-          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ElevatedButton(
-                  onPressed: _fetchPosts, child: const Text('Fetch Posts')),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.redAccent)),
-                  onPressed: () => setState(() {
-                        _posts = [];
+              Row(
+                children: [
+                  TextButton(
+                      child: Text('Fetch All Posts'), onPressed: _fetchPosts),
+                  Icon(Icons.search),
+                ],
+              ),
+              Row(
+                children: [
+                  TextButton(
+                      child: Text(
+                        'Clear Posts',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _posts = [];
+                        });
                       }),
-                  child: const Text('Clear Posts')),
+                  Icon(Icons.delete),
+                ],
+              ),
             ],
           ),
-          Text('This is where the posts will be displayed',
-              style: Theme.of(context).textTheme.subtitle1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  TextButton(
+                      child: Text('Fetch Posts by ID'), onPressed: _fetchPost),
+                  Icon(Icons.search),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 100,
+                    child: TextField(
+                      controller: postIdController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Post ID',
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+          Divider(),
           Expanded(
             child: ListView.builder(
+              padding: EdgeInsets.all(10),
               itemCount: _posts.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  contentPadding: EdgeInsets.all(8.0),
-                  title: Text(_posts[index].title,
+                return Card(
+                  child: ListTile(
+                    onTap: null,
+                    title: Text(
+                      _posts[index].title,
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary),
-                      textAlign: TextAlign.center),
-                  subtitle: Text(_posts[index].body,
-                      style: Theme.of(context).textTheme.bodyText2),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    subtitle: Text(_posts[index].body),
+
+                  ),
+                  
                 );
               },
             ),

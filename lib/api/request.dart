@@ -17,11 +17,11 @@ class Requests {
     }
   }
 
-  static Future<dynamic> getPost(int id) async {
+  static Future<Post> getPost(int id) async {
     final String url = '${ApiConstants.BASE_URL}${ApiConstants.POSTS}/$id';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return Post.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to load post');
     }
