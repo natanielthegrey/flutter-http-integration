@@ -1,9 +1,9 @@
-import 'package:fetching_data_sample/screens/post_edit_create.dart';
+import 'package:fetching_data_sample/screens/post_crud.dart';
 import 'package:fetching_data_sample/screens/posts.dart';
 import 'package:flutter/material.dart';
 
 import 'models/post.dart';
-import 'models/post_mode.dart';
+import 'models/request_mode.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,14 +43,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Posts()),
+        child: const Posts()),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PostEditCreate(
+            MaterialPageRoute(builder: (context) => PostCrud(
               post: Post(id: 0, title: '', body: ''),
-              mode: PostMode.CREATE,
+              mode: RequestMode.POST,
             )),
           )
         },

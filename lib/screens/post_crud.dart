@@ -1,33 +1,36 @@
 import 'package:fetching_data_sample/api/request.dart';
 import 'package:fetching_data_sample/models/post.dart';
-import 'package:fetching_data_sample/models/post_mode.dart';
+import 'package:fetching_data_sample/models/request_mode.dart';
 import 'package:flutter/material.dart';
 
-class PostEditCreate extends StatefulWidget {
+class PostCrud extends StatefulWidget {
   final Post post;
-  final PostMode mode;
-  const PostEditCreate({Key? key, required this.post, required this.mode}) : super(key: key);
+  final RequestMode mode;
+  const PostCrud({Key? key, required this.post, required this.mode}) : super(key: key);
 
   @override
-  State<PostEditCreate> createState() => _PostEditState();
+  State<PostCrud> createState() => _PostEditState();
 }
 
-class _PostEditState extends State<PostEditCreate> {
+class _PostEditState extends State<PostCrud> {
 
   @override
   Widget build(BuildContext context) {
     final titleController = TextEditingController(text: widget.post.title);
     final bodyController = TextEditingController(text: widget.post.body);
 
-    Widget _buildAlertDialog() {
-      var title = widget.mode == PostMode.EDIT ? 'updated' : 'created';
+    Widget _buildAlertDialog(String operation) {
+
       return AlertDialog(
-        title: Text('Post $title successfully!'),
-        content: Text('Your post have been $title with success!.'),
+        title: Text('Post $operation successfully!'),
+        content: Text('Your post have been $operation with success!.'),
         actions: [
           TextButton(
             child: const Text('OK'),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }
           ),
         ],
       );
@@ -43,12 +46,12 @@ class _PostEditState extends State<PostEditCreate> {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return _buildAlertDialog();
+              return _buildAlertDialog('created');
             });
       });
     }
 
-    void _savePost() {
+    void _editPost() {
       final updatedPost = Post(
         id: widget.post.id,
         title: titleController.text,
@@ -59,7 +62,17 @@ class _PostEditState extends State<PostEditCreate> {
         showDialog(
             context: context,
             builder: (BuildContext context) {
-              return _buildAlertDialog();
+              return _buildAlertDialog('updated');
+            });
+      });
+    }
+
+    void _deletePost() {
+      Requests.deletePost(widget.post.id).then((value) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return _buildAlertDialog('deleted');
             });
       });
     }
@@ -67,7 +80,7 @@ class _PostEditState extends State<PostEditCreate> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: Text("${widget.mode == PostMode.EDIT ? "Edit" : "Create"} Post"),
+        title: Text("${widget.mode == RequestMode.PUT ? "Edit" : "Create"} Post"),
       ),
       body: InkWell(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -93,13 +106,18 @@ class _PostEditState extends State<PostEditCreate> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: widget.mode == PostMode.EDIT ? _savePost : _createPost,
+                onPressed: widget.mode == RequestMode.PUT ? _editPost : _createPost,
                 child: const Text('Save'),
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: widget.mode == RequestMode.PUT ? FloatingActionButton(
+        onPressed: _deletePost,
+        backgroundColor: Colors.red,
+        child: const Icon(Icons.delete),
+      ) : null
     );
   }
 }

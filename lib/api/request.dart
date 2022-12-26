@@ -48,10 +48,11 @@ class Requests {
     }
   }
 
-  static Future<dynamic> deletePost(int id) async {
+  static Future<dynamic> deletePost(int? id) async {
     final String url = '${ApiConstants.BASE_URL}${ApiConstants.POSTS}/$id';
     final response = await http.delete(Uri.parse(url));
     if (response.statusCode == 200) {
+      print(response.body);
       return json.decode(response.body);
     } else {
       throw Exception('Failed to delete post');

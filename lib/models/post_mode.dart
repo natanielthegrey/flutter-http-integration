@@ -1,4 +1,0 @@
-enum PostMode {
-  EDIT,
-  CREATE
-}

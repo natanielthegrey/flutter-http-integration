@@ -1,9 +1,9 @@
 import 'package:fetching_data_sample/api/request.dart';
-import 'package:fetching_data_sample/screens/post_edit_create.dart';
+import 'package:fetching_data_sample/screens/post_crud.dart';
 import 'package:flutter/material.dart';
 
 import '../models/post.dart';
-import '../models/post_mode.dart';
+import '../models/request_mode.dart';
 
 class Posts extends StatefulWidget {
   const Posts({Key? key}) : super(key: key);
@@ -81,12 +81,12 @@ class _PostsState extends State<Posts> {
               ),
               Row(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 100,
                     child: TextField(
                       controller: postIdController,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Post ID',
                       ),
@@ -96,24 +96,24 @@ class _PostsState extends State<Posts> {
               ),
             ],
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               itemCount: _posts.length,
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => PostEditCreate(
-                          mode: PostMode.EDIT,
+                        builder: (context) => PostCrud(
+                          mode: RequestMode.PUT,
                           post: _posts[index],
                         ),
                       ),),
                     title: Text(
                       _posts[index].title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
