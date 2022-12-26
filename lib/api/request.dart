@@ -27,9 +27,9 @@ class Requests {
     }
   }
 
-  static Future<dynamic> createPost(Map<String, dynamic> body) async {
+  static Future<dynamic> createPost(Post body) async {
     const String url = ApiConstants.BASE_URL + ApiConstants.POSTS;
-    final response = await http.post(Uri.parse(url), body: body);
+    final response = await http.post(Uri.parse(url), body: json.encode(body));
     if (response.statusCode == 201) {
       return json.decode(response.body);
     } else {
@@ -37,9 +37,10 @@ class Requests {
     }
   }
 
-  static Future<dynamic> updatePost(int id, Map<String, dynamic> body) async {
+  static Future<dynamic> updatePost(int? id, Post body) async {
     final String url = '${ApiConstants.BASE_URL}${ApiConstants.POSTS}/$id';
-    final response = await http.put(Uri.parse(url), body: body);
+    final response = await http.put(Uri.parse(url), 
+    body: json.encode(body));
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {

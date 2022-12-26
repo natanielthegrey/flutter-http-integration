@@ -1,7 +1,9 @@
 import 'package:fetching_data_sample/api/request.dart';
+import 'package:fetching_data_sample/screens/post_edit_create.dart';
 import 'package:flutter/material.dart';
 
 import '../models/post.dart';
+import '../models/post_mode.dart';
 
 class Posts extends StatefulWidget {
   const Posts({Key? key}) : super(key: key);
@@ -102,7 +104,13 @@ class _PostsState extends State<Posts> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    onTap: null,
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => PostEditCreate(
+                          mode: PostMode.EDIT,
+                          post: _posts[index],
+                        ),
+                      ),),
                     title: Text(
                       _posts[index].title,
                       style: TextStyle(
