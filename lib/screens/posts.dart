@@ -36,101 +36,104 @@ class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       alignment: Alignment.topCenter,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                children: [
-                  TextButton(
-                      child: Text('Fetch All Posts'), onPressed: _fetchPosts),
-                  Icon(Icons.search),
-                ],
-              ),
-              Row(
-                children: [
-                  TextButton(
-                      child: Text(
-                        'Clear Posts',
-                        style: TextStyle(
-                          color: Colors.red,
+      child: Card(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  children: [
+                    TextButton(
+                        onPressed: _fetchPosts,
+                        child: const Text('Fetch All Posts')),
+                    const Icon(Icons.search),
+                  ],
+                ),
+                Row(
+                  children: [
+                    TextButton(
+                        child: const Text(
+                          'Clear Posts',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
                         ),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _posts = [];
-                        });
-                      }),
-                  Icon(Icons.delete),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                children: [
-                  TextButton(
-                      child: Text('Fetch Posts by ID'), onPressed: _fetchPost),
-                  Icon(Icons.search),
-                ],
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: TextField(
-                      controller: postIdController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Post ID',
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-          const Divider(),
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(10),
-              itemCount: _posts.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 5,
-                  child: ListTile(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => PostCrud(
-                          mode: RequestMode.PUT,
-                          post: _posts[index],
-                        ),
-                      ),),
-                    title: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        _posts[index].title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(_posts[index].body)),
-                  ),
-                );
-              },
+                        onPressed: () {
+                          setState(() {
+                            _posts = [];
+                          });
+                        }),
+                    const Icon(Icons.delete),
+                  ],
+                ),
+              ],
             ),
-          ),
-        ],
+            Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  children: [
+                    TextButton(
+                        child: const Text('Fetch Posts by ID'), onPressed: _fetchPost),
+                    const Icon(Icons.search),
+                  ],
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: TextField(
+                        controller: postIdController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Post ID',
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            const Divider(),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: _posts.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PostCrud(
+                            mode: RequestMode.PUT,
+                            post: _posts[index],
+                          ),
+                        ),),
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _posts[index].title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(_posts[index].body)),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
