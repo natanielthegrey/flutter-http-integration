@@ -3,6 +3,8 @@ import 'package:fetching_data_sample/models/post.dart';
 import 'package:fetching_data_sample/models/request_mode.dart';
 import 'package:flutter/material.dart';
 
+import '../api/utils.dart';
+
 class PostCrud extends StatefulWidget {
   final Post post;
   final RequestMode mode;
@@ -62,6 +64,8 @@ class _PostEditState extends State<PostCrud> {
               builder: (BuildContext context) {
                 return _buildAlertDialog('created');
               });
+        }, onError: (error) {
+          handleApiError(error.toString(), context);
         });
       });
     }
@@ -83,6 +87,8 @@ class _PostEditState extends State<PostCrud> {
               builder: (BuildContext context) {
                 return _buildAlertDialog('updated');
               });
+        }, onError: (error) {
+          handleApiError(error.toString(), context);
         });
       });
     }
@@ -98,10 +104,13 @@ class _PostEditState extends State<PostCrud> {
               builder: (BuildContext context) {
                 return _buildAlertDialog('deleted');
               });
+        }, onError: (error) {
+          handleApiError(error.toString(), context);
         });
       });
     }
 
+    
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,

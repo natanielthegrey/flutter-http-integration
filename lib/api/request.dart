@@ -8,6 +8,7 @@ import '../models/post.dart';
 class Requests {
 
   static Future<List<Post>> getPosts() async {
+
     const String url = ApiConstants.BASE_URL + ApiConstants.POSTS;
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
